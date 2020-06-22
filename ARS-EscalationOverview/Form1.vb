@@ -124,6 +124,9 @@
 
     End Sub
 
+    Private Sub chk_showdisabled_CheckedChanged(sender As Object, e As EventArgs) Handles chk_showdisabled.CheckedChanged
+        updateTable(lst_Pools.SelectedIndex + 1, chk_showdisabled.Checked)
+    End Sub
 
     Private Sub updateTable(pool As Integer, all As Boolean)
         Dim rows As DataRow()
@@ -142,7 +145,7 @@
             EscalItem.SubItems.Add(row("countAll"))
             EscalItem.SubItems.Add(row("countMatched"))
             If row("Enabled") = False Then
-                EscalItem.ForeColor = Color.Silver
+                EscalItem.ForeColor = Color.Gray
             End If
             lst_escal.Items.Add(EscalItem)
         Next
@@ -150,10 +153,6 @@
         'col_Interval.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize)
         'col_countAll.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize)
         'col_countMatch.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize)
-    End Sub
-
-    Private Sub chk_showdisabled_CheckedChanged(sender As Object, e As EventArgs) Handles chk_showdisabled.CheckedChanged
-        updateTable(lst_Pools.SelectedIndex + 1, chk_showdisabled.Checked)
     End Sub
 
     Private Function getEntryCountOfForm(sFormName As String) As Integer
@@ -166,4 +165,5 @@
             getEntryCountOfForm = -1
         End Try
     End Function
+
 End Class

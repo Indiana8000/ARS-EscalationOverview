@@ -185,6 +185,7 @@ Partial Class Form1
         '
         Me.col_countMatch.Text = "Count Match"
         Me.col_countMatch.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.col_countMatch.Width = 80
         '
         'chk_showdisabled
         '
