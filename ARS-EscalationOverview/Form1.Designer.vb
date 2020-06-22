@@ -41,6 +41,9 @@ Partial Class Form1
         Me.col_Interval = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.col_countAll = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.col_countMatch = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.chk_showdisabled = New System.Windows.Forms.CheckBox()
+        Me.chk_testQualification = New System.Windows.Forms.CheckBox()
+        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
         Me.SuspendLayout()
         '
         'Label18
@@ -140,7 +143,7 @@ Partial Class Form1
         Me.btn_exec.Enabled = False
         Me.btn_exec.Location = New System.Drawing.Point(12, 55)
         Me.btn_exec.Name = "btn_exec"
-        Me.btn_exec.Size = New System.Drawing.Size(75, 20)
+        Me.btn_exec.Size = New System.Drawing.Size(95, 20)
         Me.btn_exec.TabIndex = 75
         Me.btn_exec.Text = "Run"
         Me.btn_exec.UseVisualStyleBackColor = True
@@ -148,17 +151,17 @@ Partial Class Form1
         'lst_Pools
         '
         Me.lst_Pools.FormattingEnabled = True
-        Me.lst_Pools.Location = New System.Drawing.Point(12, 81)
+        Me.lst_Pools.Location = New System.Drawing.Point(12, 104)
         Me.lst_Pools.Name = "lst_Pools"
-        Me.lst_Pools.Size = New System.Drawing.Size(75, 290)
+        Me.lst_Pools.Size = New System.Drawing.Size(95, 238)
         Me.lst_Pools.TabIndex = 76
         '
         'lst_escal
         '
         Me.lst_escal.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.col_Name, Me.col_Interval, Me.col_countAll, Me.col_countMatch})
-        Me.lst_escal.Location = New System.Drawing.Point(93, 55)
+        Me.lst_escal.Location = New System.Drawing.Point(113, 55)
         Me.lst_escal.Name = "lst_escal"
-        Me.lst_escal.Size = New System.Drawing.Size(759, 316)
+        Me.lst_escal.Size = New System.Drawing.Size(739, 316)
         Me.lst_escal.TabIndex = 77
         Me.lst_escal.UseCompatibleStateImageBehavior = False
         Me.lst_escal.View = System.Windows.Forms.View.Details
@@ -183,11 +186,43 @@ Partial Class Form1
         Me.col_countMatch.Text = "Count Match"
         Me.col_countMatch.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
+        'chk_showdisabled
+        '
+        Me.chk_showdisabled.AutoSize = True
+        Me.chk_showdisabled.Location = New System.Drawing.Point(12, 350)
+        Me.chk_showdisabled.Name = "chk_showdisabled"
+        Me.chk_showdisabled.Size = New System.Drawing.Size(95, 17)
+        Me.chk_showdisabled.TabIndex = 78
+        Me.chk_showdisabled.Text = "show Disabled"
+        Me.chk_showdisabled.UseVisualStyleBackColor = True
+        '
+        'chk_testQualification
+        '
+        Me.chk_testQualification.AutoSize = True
+        Me.chk_testQualification.Location = New System.Drawing.Point(12, 81)
+        Me.chk_testQualification.Name = "chk_testQualification"
+        Me.chk_testQualification.Size = New System.Drawing.Size(72, 17)
+        Me.chk_testQualification.TabIndex = 79
+        Me.chk_testQualification.Text = "Test Qual"
+        Me.chk_testQualification.UseVisualStyleBackColor = True
+        '
+        'ProgressBar1
+        '
+        Me.ProgressBar1.Location = New System.Drawing.Point(12, 324)
+        Me.ProgressBar1.Name = "ProgressBar1"
+        Me.ProgressBar1.Size = New System.Drawing.Size(95, 18)
+        Me.ProgressBar1.Step = 1
+        Me.ProgressBar1.TabIndex = 80
+        Me.ProgressBar1.Value = 50
+        Me.ProgressBar1.Visible = False
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(864, 384)
+        Me.Controls.Add(Me.ProgressBar1)
+        Me.Controls.Add(Me.chk_showdisabled)
         Me.Controls.Add(Me.lst_escal)
         Me.Controls.Add(Me.lst_Pools)
         Me.Controls.Add(Me.btn_exec)
@@ -202,6 +237,7 @@ Partial Class Form1
         Me.Controls.Add(Me.txt_Port)
         Me.Controls.Add(Me.Label14)
         Me.Controls.Add(Me.txt_Server)
+        Me.Controls.Add(Me.chk_testQualification)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form1"
@@ -229,4 +265,7 @@ Partial Class Form1
     Friend WithEvents col_Interval As ColumnHeader
     Friend WithEvents col_countAll As ColumnHeader
     Friend WithEvents col_countMatch As ColumnHeader
+    Friend WithEvents chk_showdisabled As CheckBox
+    Friend WithEvents chk_testQualification As CheckBox
+    Friend WithEvents ProgressBar1 As ProgressBar
 End Class

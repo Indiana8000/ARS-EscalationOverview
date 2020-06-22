@@ -64,14 +64,23 @@
         Dim ecl As BMC.ARSystem.Escalation
         Dim ti As BMC.ARSystem.EscalationInterval
         Dim tt As BMC.ARSystem.EscalationTime
+        Dim testQuery As ArrayList
         Dim de As DictionaryEntry
 
         Dim pool As Integer
         Dim interval As Integer
+        Dim count As Integer = 0
 
         btn_exec.Enabled = False
+        ProgressBar1.Value = 0
+        ProgressBar1.Visible = True
+        tEscalations.Rows.Clear()
         es = oServer.GetListEscalation()
         For Each s As String In es
+            count = count + 1
+            btn_exec.Text = "Run " & count & "/" & es.Count
+            ProgressBar1.Value = (count * 100) / es.Count
+            Application.DoEvents()
             ecl = oServer.GetEscalation(s)
 
             pool = 1
@@ -85,46 +94,76 @@
 
             While lst_Pools.Items.Count < pool
                 lst_Pools.Items.Add("Pool " & (lst_Pools.Items.Count + 1))
-                Application.DoEvents()
             End While
 
             If ecl.TimeCriteria.GetType Is GetType(BMC.ARSystem.EscalationInterval) Then
                 ti = ecl.TimeCriteria
                 interval = ti.Minutes
-                tEscalations.Rows.Add(s, ecl.Enabled, pool, interval, 0, 0)
+                If chk_testQualification.Checked And ecl.Enabled Then
+                    Try
+                        testQuery = oServer.GetListEntry(ecl.PrimaryForm, ecl.RunIfQualification)
+                    Catch ex As Exception
+                        testQuery = New ArrayList
+                    End Try
+                    tEscalations.Rows.Add(s, ecl.Enabled, pool, interval, getEntryCountOfForm(ecl.PrimaryForm), testQuery.Count)
+                Else
+                    tEscalations.Rows.Add(s, ecl.Enabled, pool, interval, 0, 0)
+                End If
             Else
                 tt = ecl.TimeCriteria
                 'TBD
             End If
         Next
         btn_exec.Enabled = True
+        btn_exec.Text = "Run"
+        ProgressBar1.Visible = False
     End Sub
 
     Private Sub lst_Pools_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lst_Pools.SelectedIndexChanged
+        updateTable(lst_Pools.SelectedIndex + 1, chk_showdisabled.Checked)
+
+    End Sub
+
+
+    Private Sub updateTable(pool As Integer, all As Boolean)
         Dim rows As DataRow()
         Dim EscalItem As ListViewItem
 
         lst_escal.Items.Clear()
-        rows = tEscalations.Select("Pool = " & lst_Pools.SelectedIndex, "Interval ASC, Name ASC")
+        If all Then
+            rows = tEscalations.Select("Pool = " & pool, "Interval ASC, Name ASC")
+        Else
+            rows = tEscalations.Select("Pool = " & pool & " AND Enabled = true", "Interval ASC, Name ASC")
+        End If
         For Each row As DataRow In rows
-            Console.WriteLine("DEBUG: " & row("Name"))
             EscalItem = New ListViewItem
-
             EscalItem.Text = row("Name")
             EscalItem.SubItems.Add(row("Interval"))
             EscalItem.SubItems.Add(row("countAll"))
             EscalItem.SubItems.Add(row("countMatched"))
-
             If row("Enabled") = False Then
                 EscalItem.ForeColor = Color.Silver
             End If
-
             lst_escal.Items.Add(EscalItem)
         Next
-
         col_Name.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent)
-        col_Interval.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent)
-        col_countAll.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent)
-        col_countMatch.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent)
+        'col_Interval.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize)
+        'col_countAll.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize)
+        'col_countMatch.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize)
     End Sub
+
+    Private Sub chk_showdisabled_CheckedChanged(sender As Object, e As EventArgs) Handles chk_showdisabled.CheckedChanged
+        updateTable(lst_Pools.SelectedIndex + 1, chk_showdisabled.Checked)
+    End Sub
+
+    Private Function getEntryCountOfForm(sFormName As String) As Integer
+        Dim tmpTable As DataTable
+        Try
+            tmpTable = oServer.GetListSQL("SELECT schemaid, schematype FROM arschema WHERE name = '" & sFormName & "'", 1)
+            tmpTable = oServer.GetListSQL("SELECT count(*) FROM T" & tmpTable.Rows(0).Item(0), 1)
+            getEntryCountOfForm = tmpTable.Rows(0).Item(0).ToString
+        Catch ex As Exception
+            getEntryCountOfForm = -1
+        End Try
+    End Function
 End Class
