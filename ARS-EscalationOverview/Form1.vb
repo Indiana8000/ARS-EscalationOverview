@@ -1,4 +1,6 @@
-﻿Public Class Form1
+﻿Imports System.Collections.Specialized
+
+Public Class Form1
     Dim oServer As BMC.ARSystem.Server
     Dim tEscalations As DataTable
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -18,6 +20,7 @@
 
         tEscalations = New DataTable
         tEscalations.Columns.Add("Name", GetType(String))
+        tEscalations.Columns.Add("Type", GetType(Integer))
         tEscalations.Columns.Add("Enabled", GetType(Boolean))
         tEscalations.Columns.Add("Pool", GetType(Integer))
         tEscalations.Columns.Add("Interval", GetType(Integer))
@@ -39,6 +42,7 @@
             btn_Connect.Enabled = False
             btn_disconnect.Enabled = True
             btn_exec.Enabled = True
+            btn_exec.Select()
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
@@ -70,6 +74,7 @@
         Dim pool As Integer
         Dim interval As Integer
         Dim count As Integer = 0
+        Dim countTotal, countMatch As Integer
 
         btn_exec.Enabled = False
         ProgressBar1.Value = 0
@@ -105,13 +110,30 @@
                     Catch ex As Exception
                         testQuery = New ArrayList
                     End Try
-                    tEscalations.Rows.Add(s, ecl.Enabled, pool, interval, getEntryCountOfForm(ecl.PrimaryForm), testQuery.Count)
+                    tEscalations.Rows.Add(s, 0, ecl.Enabled, pool, interval, getEntryCountOfForm(ecl.PrimaryForm), testQuery.Count)
                 Else
-                    tEscalations.Rows.Add(s, ecl.Enabled, pool, interval, 0, 0)
+                    tEscalations.Rows.Add(s, 0, ecl.Enabled, pool, interval, -1, -1)
                 End If
             Else
+                If chk_testQualification.Checked And ecl.Enabled Then
+                    Try
+                        testQuery = oServer.GetListEntry(ecl.PrimaryForm, ecl.RunIfQualification)
+                    Catch ex As Exception
+                        testQuery = New ArrayList
+                    End Try
+                    countTotal = getEntryCountOfForm(ecl.PrimaryForm)
+                    countMatch = testQuery.Count
+                Else
+                    countTotal = -1
+                    countMatch = -1
+                End If
+
                 tt = ecl.TimeCriteria
-                'TBD
+                For i = 0 To 31
+                    If tt.Hours(1 << i) Then
+                        tEscalations.Rows.Add(i.ToString("00") & ":" & tt.Minute.ToString("00") & " - " & s, 1, ecl.Enabled, pool, 0, countTotal, countMatch)
+                    End If
+                Next
             End If
         Next
         btn_exec.Enabled = True
@@ -120,24 +142,33 @@
     End Sub
 
     Private Sub lst_Pools_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lst_Pools.SelectedIndexChanged
-        updateTable(lst_Pools.SelectedIndex + 1, chk_showdisabled.Checked)
-
+        updateTable(lst_Pools.SelectedIndex + 1, chk_showdisabled.Checked, chk_time.Checked)
     End Sub
 
     Private Sub chk_showdisabled_CheckedChanged(sender As Object, e As EventArgs) Handles chk_showdisabled.CheckedChanged
-        updateTable(lst_Pools.SelectedIndex + 1, chk_showdisabled.Checked)
+        updateTable(lst_Pools.SelectedIndex + 1, chk_showdisabled.Checked, chk_time.Checked)
+    End Sub
+    Private Sub chk_time_CheckedChanged(sender As Object, e As EventArgs) Handles chk_time.CheckedChanged
+        updateTable(lst_Pools.SelectedIndex + 1, chk_showdisabled.Checked, chk_time.Checked)
     End Sub
 
-    Private Sub updateTable(pool As Integer, all As Boolean)
+    Private Sub updateTable(pool As Integer, all As Boolean, timed As Boolean)
         Dim rows As DataRow()
         Dim EscalItem As ListViewItem
+        Dim sql As String
+
+        sql = "Pool = " & pool
+        If Not all Then
+            sql &= " And Enabled = True"
+        End If
+        If timed Then
+            sql &= " And Type = 1"
+        Else
+            sql &= " And Type = 0"
+        End If
 
         lst_escal.Items.Clear()
-        If all Then
-            rows = tEscalations.Select("Pool = " & pool, "Interval ASC, Name ASC")
-        Else
-            rows = tEscalations.Select("Pool = " & pool & " AND Enabled = true", "Interval ASC, Name ASC")
-        End If
+        rows = tEscalations.Select(sql, "Interval ASC, Name ASC")
         For Each row As DataRow In rows
             EscalItem = New ListViewItem
             EscalItem.Text = row("Name")
@@ -158,7 +189,7 @@
     Private Function getEntryCountOfForm(sFormName As String) As Integer
         Dim tmpTable As DataTable
         Try
-            tmpTable = oServer.GetListSQL("SELECT schemaid, schematype FROM arschema WHERE name = '" & sFormName & "'", 1)
+            tmpTable = oServer.GetListSQL("Select schemaid, schematype FROM arschema WHERE name = '" & sFormName & "'", 1)
             tmpTable = oServer.GetListSQL("SELECT count(*) FROM T" & tmpTable.Rows(0).Item(0), 1)
             getEntryCountOfForm = tmpTable.Rows(0).Item(0).ToString
         Catch ex As Exception

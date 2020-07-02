@@ -44,6 +44,7 @@ Partial Class Form1
         Me.chk_showdisabled = New System.Windows.Forms.CheckBox()
         Me.chk_testQualification = New System.Windows.Forms.CheckBox()
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
+        Me.chk_time = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'Label18
@@ -153,7 +154,7 @@ Partial Class Form1
         Me.lst_Pools.FormattingEnabled = True
         Me.lst_Pools.Location = New System.Drawing.Point(12, 104)
         Me.lst_Pools.Name = "lst_Pools"
-        Me.lst_Pools.Size = New System.Drawing.Size(95, 238)
+        Me.lst_Pools.Size = New System.Drawing.Size(95, 199)
         Me.lst_Pools.TabIndex = 76
         '
         'lst_escal
@@ -190,11 +191,11 @@ Partial Class Form1
         'chk_showdisabled
         '
         Me.chk_showdisabled.AutoSize = True
-        Me.chk_showdisabled.Location = New System.Drawing.Point(12, 350)
+        Me.chk_showdisabled.Location = New System.Drawing.Point(12, 331)
         Me.chk_showdisabled.Name = "chk_showdisabled"
-        Me.chk_showdisabled.Size = New System.Drawing.Size(95, 17)
+        Me.chk_showdisabled.Size = New System.Drawing.Size(97, 17)
         Me.chk_showdisabled.TabIndex = 78
-        Me.chk_showdisabled.Text = "show Disabled"
+        Me.chk_showdisabled.Text = "Show Disabled"
         Me.chk_showdisabled.UseVisualStyleBackColor = True
         '
         'chk_testQualification
@@ -209,7 +210,7 @@ Partial Class Form1
         '
         'ProgressBar1
         '
-        Me.ProgressBar1.Location = New System.Drawing.Point(12, 324)
+        Me.ProgressBar1.Location = New System.Drawing.Point(12, 307)
         Me.ProgressBar1.Name = "ProgressBar1"
         Me.ProgressBar1.Size = New System.Drawing.Size(95, 18)
         Me.ProgressBar1.Step = 1
@@ -217,11 +218,22 @@ Partial Class Form1
         Me.ProgressBar1.Value = 50
         Me.ProgressBar1.Visible = False
         '
+        'chk_time
+        '
+        Me.chk_time.AutoSize = True
+        Me.chk_time.Location = New System.Drawing.Point(12, 354)
+        Me.chk_time.Name = "chk_time"
+        Me.chk_time.Size = New System.Drawing.Size(95, 17)
+        Me.chk_time.TabIndex = 81
+        Me.chk_time.Text = "Interval/Timed"
+        Me.chk_time.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(864, 384)
+        Me.Controls.Add(Me.chk_time)
         Me.Controls.Add(Me.ProgressBar1)
         Me.Controls.Add(Me.chk_showdisabled)
         Me.Controls.Add(Me.lst_escal)
@@ -269,4 +281,5 @@ Partial Class Form1
     Friend WithEvents chk_showdisabled As CheckBox
     Friend WithEvents chk_testQualification As CheckBox
     Friend WithEvents ProgressBar1 As ProgressBar
+    Friend WithEvents chk_time As CheckBox
 End Class
