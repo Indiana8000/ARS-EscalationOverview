@@ -4,7 +4,7 @@ Public Class Form1
     Dim oServer As BMC.ARSystem.Server
     Dim tEscalations As DataTable
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If Date.Now.Year > 2020 Or Date.Now.Month > 9 Then
+        If Date.Now.Year > 2020 Or Date.Now.Month > 12 Then
             MsgBox("Trial Period Expired! Please contact the Developer.", vbExclamation, "Unregistered Version")
             Application.Exit()
         End If
