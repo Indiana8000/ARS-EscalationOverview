@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 ' Werte der Assemblyattribute überprüfen
 
 <Assembly: AssemblyTitle("ARS-EscalationOverview")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyDescription("BMC Action Request Sytem - Escalation Overview (By Pool and Interval)")>
+<Assembly: AssemblyCompany("Andreas Kreisl")>
 <Assembly: AssemblyProduct("ARS-EscalationOverview")>
-<Assembly: AssemblyCopyright("Copyright ©  2020")>
+<Assembly: AssemblyCopyright("Copyright © 2020 - Andreas Kreisl")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>

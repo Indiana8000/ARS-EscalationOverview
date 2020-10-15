@@ -164,7 +164,7 @@ Partial Class Form1
         Me.lst_escal.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lst_escal.Location = New System.Drawing.Point(0, 0)
         Me.lst_escal.Name = "lst_escal"
-        Me.lst_escal.Size = New System.Drawing.Size(1154, 630)
+        Me.lst_escal.Size = New System.Drawing.Size(749, 335)
         Me.lst_escal.TabIndex = 77
         Me.lst_escal.UseCompatibleStateImageBehavior = False
         Me.lst_escal.View = System.Windows.Forms.View.Details
@@ -254,7 +254,7 @@ Partial Class Form1
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1264, 681)
+        Me.SplitContainer1.Size = New System.Drawing.Size(859, 386)
         Me.SplitContainer1.SplitterDistance = 47
         Me.SplitContainer1.TabIndex = 82
         '
@@ -277,7 +277,7 @@ Partial Class Form1
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.lst_escal)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1264, 630)
+        Me.SplitContainer2.Size = New System.Drawing.Size(859, 335)
         Me.SplitContainer2.SplitterDistance = 106
         Me.SplitContainer2.TabIndex = 83
         '
@@ -285,12 +285,12 @@ Partial Class Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1264, 681)
+        Me.ClientSize = New System.Drawing.Size(859, 386)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(875, 425)
         Me.Name = "Form1"
-        Me.Text = "ARS-EscalationOverview"
+        Me.Text = "ARS-EscalationOverview © Andreas Kreisl"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
