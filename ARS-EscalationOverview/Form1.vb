@@ -4,7 +4,7 @@ Public Class Form1
     Dim oServer As BMC.ARSystem.Server
     Dim tEscalations As DataTable
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        If Date.Now.Year > 2020 Or Date.Now.Month > 12 Then
+        If Date.Now.Year > 2025 Or Date.Now.Month > 12 Then
             MsgBox("Trial Period Expired! Please contact the Developer.", vbExclamation, "Unregistered Version")
             Application.Exit()
         End If
@@ -86,7 +86,14 @@ Public Class Form1
             btn_exec.Text = "Run " & count & "/" & es.Count
             ProgressBar1.Value = (count * 100) / es.Count
             Application.DoEvents()
-            ecl = oServer.GetEscalation(s)
+            Try
+                ecl = oServer.GetEscalation(s)
+            Catch ex As Exception
+                Console.WriteLine("Can't get Escalation: " & s)
+                'Console.WriteLine(ex.Message)
+                Continue For
+            End Try
+
 
             pool = 1
             If ecl.Properties.Contains(60024) Then

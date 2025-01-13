@@ -75,11 +75,11 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BMC.ARSystem">
-      <HintPath>..\..\..\..\..\..\TOOLS\ARS9108\ARAPI80.NET\BMC.ARSystem.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\TOOLS\Apps\ARAPI80.NET\BMC.ARSystem.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
